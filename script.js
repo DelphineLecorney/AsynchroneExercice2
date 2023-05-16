@@ -27,4 +27,3 @@ button.addEventListener('click', () => {
   let name = input.value;
   fetchName(name);
 });
-
