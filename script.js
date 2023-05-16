@@ -1,19 +1,30 @@
-// Create a body element and append it to the html
-let body = document.createElement('body');
-document.documentElement.appendChild(body);
 
-// Create a inputelement and append it to the html
-let input = document.createElement('input');
-input.type = 'text'; 
-input.placeholder = 'Enter a name';
-input.classList.add('input');
-body.appendChild(input);
+// Retrieve elements from the DOM
+const section = document.getElementsByClassName('section');
+const input = document.getElementById('name');
+const button = document.querySelector('.section-button');
+const body = document.body;
 
-// Create a button element, a text node, a class and append button
-let buttonJson = document.createElement('button');
-let messageButton = document.createTextNode('fetch query');
-buttonJson.classList.add('buttonJson');
-buttonJson.appendChild(messageButton);
-body.appendChild(buttonJson);
+// Function to fetch name and handle response
+const fetchName = (name) => {
+  fetch("https://api.agify.io/?name=" + name)
+    .then((response) => response.json())
+    .then((data) => {
+      section.innerHTML = ""; // Clear the body
 
+      // Create and append a div for the result
+      let divResult = document.createElement('div');
+      divResult.textContent = JSON.stringify(data);
+      body.appendChild(divResult);
+    })
+    .catch((error) => {
+      console.log("There was an error!", error);
+    });
+};
+
+// Add event
+button.addEventListener('click', () => {
+  let name = input.value;
+  fetchName(name);
+});
 
